@@ -4,7 +4,6 @@ from exceptions import HeroAlreadyHasAWeapon
 class Hero():
 
     def __init__(self, name="Bron", title="Dragonslayer", health="100", mana="100", mana_regeneration_rate=2):
-
         if not isinstance(name, str):
             raise TypeError("Hero name not valid!")
 
@@ -34,13 +33,13 @@ class Hero():
 
         if mana > 100:
             raise ValueError("Too much mana for our hero!")
+
         self._name = name
         self._spell = False
         self._title = title
         self._health = health
         self._mana = mana
         self._weapon = False
-        self._m_mana = mana
         self._mana_regeneration_rate = mana_regeneration_rate
 
     def known_as(self):
@@ -49,6 +48,7 @@ class Hero():
     def is_alive(self):
         if self._health > 0:
             return True
+
         return False
 
     def get_health(self):
@@ -60,6 +60,7 @@ class Hero():
     def can_cast(self):
         if self.get_mana() > 0:
             return True
+
         return False
 
     def take_damage(self, damage_points):
@@ -74,6 +75,7 @@ class Hero():
     def take_healing(self, healing_points):
         if healing_points <= 0:
             raise ValueError("Inappropriate healing_points argument value!")
+
         if not self.is_alive():
             return False
 
@@ -81,20 +83,27 @@ class Hero():
             self._health = 100
         else:
             self._health += healing_points
+
         return True
 
+    def regenerate_mana(self):
+        self._mana += self._mana_regeneration_rate
+
+        self._balance_mana()
+
     def take_mana(self, mana_points):
-        new = 0
-        if self.move_hero():
-            new += self._mana_regeneration_rate
-        new += mana_points
-        self._mana += new
-        if self._mana > self.m_mana:
-            self._mana = self.m_mana
+        self._mana += mana_points
+
+        self._balance_mana()
+
+    def _balance_mana(self):
+        if self._mana > 100:
+            self._mana = 100
 
     def equip(self, weapon):
         if self._weapon:
             raise HeroAlreadyHasAWeapon("Our hero already has a weapon!")
+
         self._weapon = weapon
 
     def learn(self, spell):
@@ -103,7 +112,9 @@ class Hero():
     def attack(self, by):
         if not self._weapon and not self._spell:
             return 0
+
         if by == "weapon":
             return self._weapon.damage
+
         if by == "magic" and self.can_cast():
             return self._mana.damage
