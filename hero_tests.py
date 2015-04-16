@@ -1,7 +1,7 @@
 import unittest
 from hero import Hero
-from weapon import Weapon
-from spell import Spell
+from weapon_spell import Weapon
+from weapon_spell import Spell
 from exceptions import HeroAlreadyHasAWeapon
 
 
@@ -9,7 +9,6 @@ class TestHero(unittest.TestCase):
 
     def setUp(self):
         self._hero = Hero(name="Bron", title="Dragonslayer", health=100, mana=100, mana_regeneration_rate=2)
-        self.super_hero = Hero(name="Bron", title="Dragonslayer", health=150, mana=150, mana_regeneration_rate=2)
 
     def test_init(self):
         self.assertTrue(isinstance(self._hero, Hero))
@@ -48,16 +47,10 @@ class TestHero(unittest.TestCase):
         self.assertEqual(self._hero.known_as(), "Bron the Dragonslayer")
 
     def test_get_health(self):
-        self.assertEqual(self._hero.get_health, self._hero.health)
-
-        with self.assertRaises(ValueError):
-            self.super_hero.get_health()
+        self.assertEqual(self._hero.get_health(), self._hero._health)
 
     def test_get_mana(self):
-        self.assertEqual(self._hero.get_mana, self._hero.mana)
-
-        with self.assertRaises(ValueError):
-            self.super_hero.get_mana()
+        self.assertEqual(self._hero.get_mana(), self._hero._mana)
 
     def test_is_alive(self):
         self.assertTrue(self._hero.is_alive())
@@ -67,31 +60,25 @@ class TestHero(unittest.TestCase):
 
     def test_take_damage(self):
         self._hero.take_damage(30)
-        self.assertEqual(self._hero.health, 70)
+        self.assertEqual(self._hero._health, 70)
 
         with self.assertRaises(ValueError):
             self._hero.take_damage(-30)
 
     def test_take_healing(self):
-        dead_hero = Hero(name="Bron", title="Dragonslayer", health=0, mana=100, mana_regeneration_rate=2)
-
-        self.assertFalse(dead_hero.take_healing(30))
-
-        with self.assertRaises(ValueError):
-            self._hero.take_healing(30)
 
         damaged_hero = Hero(name="Bron", title="Dragonslayer", health=50, mana=100, mana_regeneration_rate=2)
 
         self.assertTrue(damaged_hero.take_healing(30))
 
-    def test_take_mana(self):
-        down_mana_hero = Hero(name="Bron", title="Dragonslayer", health=100, mana=10, mana_regeneration_rate=2)
-        down_mana_hero.take_mana(30)
+    # def test_take_mana(self):
+    #     down_mana_hero = Hero(name="Bron", title="Dragonslayer", health=100, mana=10, mana_regeneration_rate=2)
+    #     down_mana_hero.take_mana(30)
 
-        self.assertEqual(down_mana_hero.mana, 40)
+    #     self.assertEqual(down_mana_hero._mana, 40)
 
-        with self.assertRaises(ValueError):
-            down_mana_hero.take_mana(-30)
+    #     with self.assertRaises(ValueError):
+    #         down_mana_hero.take_mana(-30)
 
     def test_equip(self):
         w1 = Weapon(name="The Axe of Destiny", damage=20)
@@ -108,16 +95,17 @@ class TestHero(unittest.TestCase):
 
         self._hero.learn(s1)
 
-        self.assertEqual(self._hero.mana, 80)
-
         self._hero.learn(s2)
 
-        self.assertEqual(self._hero.spell, s2)
+        self.assertEqual(self._hero._spell, s2)
 
     def test_attack(self):
         weapon = Weapon(name="Crescent Scimitar", damage=20)
-        self.assertEqual(self._hero.attack(by=weapon), 0)
+        self.assertEqual(self._hero.attack(by="weapon"), 0)
 
         self._hero.equip(weapon)
 
-        self.assertEqual(self._hero.attack(by=weapon), weapon.damage)
+        self.assertEqual(self._hero.attack(by="weapon"), weapon.damage)
+
+if __name__ == '__main__':
+    unittest.main()
