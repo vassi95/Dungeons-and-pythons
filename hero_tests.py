@@ -71,14 +71,11 @@ class TestHero(unittest.TestCase):
 
         self.assertTrue(damaged_hero.take_healing(30))
 
-    # def test_take_mana(self):
-    #     down_mana_hero = Hero(name="Bron", title="Dragonslayer", health=100, mana=10, mana_regeneration_rate=2)
-    #     down_mana_hero.take_mana(30)
+    def test_take_mana(self):
+        down_mana_hero = Hero(name="Bron", title="Dragonslayer", health=100, mana=10, mana_regeneration_rate=2)
+        down_mana_hero.take_mana(30)
 
-    #     self.assertEqual(down_mana_hero._mana, 40)
-
-    #     with self.assertRaises(ValueError):
-    #         down_mana_hero.take_mana(-30)
+        self.assertEqual(down_mana_hero._mana, 40)
 
     def test_equip(self):
         w1 = Weapon(name="The Axe of Destiny", damage=20)
