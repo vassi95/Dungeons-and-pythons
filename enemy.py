@@ -1,6 +1,6 @@
 
 class Enemy:
-    def __init__(self, health, mana, damage):
+    def __init__(self, health=100, mana=100, damage=20):
         self.health = health
         self.m_health = health
         self.m_mana = mana
