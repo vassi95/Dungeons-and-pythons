@@ -6,6 +6,25 @@ class Enemy:
         self.m_mana = mana
         self.mana = mana
         self.damage = damage
+        if health <= 0:
+            raise ValueError("Hero has no health!")
+
+        if health > 100:
+            raise ValueError("Too much health, not a super hero!")
+        if mana < 0:
+            raise ValueError("Mana value not appropriate!")
+        if mana > 100:
+            raise ValueError("Too much mana for our hero!")
+        if damage <= 0:
+            raise ValueError("Damage value not appropriate")
+        if not isinstance(health, int):
+            raise TypeError("Hero health not valid!")
+
+        if not isinstance(mana, int):
+            raise TypeError("Hero mana not valid!")
+
+        if not isinstance(damage, int):
+            raise TypeError("damage not valid!")
 
     def is_alive(self):
         if self.health > 0:
