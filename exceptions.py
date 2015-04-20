@@ -4,3 +4,7 @@ class HeroAlreadyHasAWeapon(Exception):
 
 class HeroCantCastThatSpell(Exception):
     pass
+
+
+class DungeonInvalid(Exception):
+    pass
