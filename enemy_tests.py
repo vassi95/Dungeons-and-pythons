@@ -26,9 +26,6 @@ class TestEnemy(unittest.TestCase):
             Enemy(health=100, mana=100, damage=-20)
 
         with self.assertRaises(TypeError):
-            Enemy(health=100, mana=100, damage=20)
-
-        with self.assertRaises(TypeError):
             Enemy(health="str", mana=100, damage=20)
 
         with self.assertRaises(TypeError):
@@ -38,10 +35,10 @@ class TestEnemy(unittest.TestCase):
             Enemy(health=100, mana=100, damage="str")
 
     def test_get_health(self):
-        self.assertEqual(self._enemy.get_health(), self._enemy._health)
+        self.assertEqual(self._enemy.get_health(), self._enemy.health)
 
     def test_get_mana(self):
-        self.assertEqual(self._enemy.get_mana(), self._enemy._mana)
+        self.assertEqual(self._enemy.get_mana(), self._enemy.mana)
 
     def test_is_alive(self):
         self.assertTrue(self._enemy.is_alive())
@@ -55,10 +52,9 @@ class TestEnemy(unittest.TestCase):
         self.assertTrue(damaged_enemy.take_healing(30))
 
     def test_take_mana(self):
-        down_mana_enemy = Enemy(health=100, mana=10, damage=20)
+        down_mana_enemy = Enemy(health=100, mana=40, damage=20)
         down_mana_enemy.take_mana(30)
-
-        self.assertEqual(down_mana_enemy._mana, 40)
+        self.assertEqual(down_mana_enemy.mana, 40)
 
     def test_attack(self):
         pass
