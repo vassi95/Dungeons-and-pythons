@@ -19,9 +19,6 @@ class Dungeon:
         self._generate_map(filename)
 
     def spawn(self, hero):
-        if not isinstance(hero, Hero):
-            raise TypeError("No hero provided")
-
         if not len(self._map_data["S"]):
             return False
 
